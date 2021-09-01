@@ -17,10 +17,11 @@ function startTimer(display) {
     display.innerHTML = to_clock_string(duration);
     localStorage.setItem('time_left', duration);
 
-        // chrome.browserAction.setBadgeText({text: "minutes + ":" + seconds;"});
+    chrome.browserAction.setBadgeText({text:to_clock_string(duration)});
 
     if (--duration < 0){
         active = false;
+        localStorage.setItem('active', false);
         clearInterval(clock);
         clock = null;
     }
@@ -52,24 +53,22 @@ function set_timer(time, display){
     }
     else {
         time.val('');
-        alert('invalid time')
+        alert('invalid time');
     }
     localStorage.setItem('time_left', timer);
+    duration = timer;
     // console.log(localStorage.getItem('time_left'));
 }
 
 window.onload = function () {
     var t = localStorage.getItem('time_left');
+    active = localStorage.getItem('active') == 'true';
     t = parseInt(t);
-    // console.log(t);
     if (Number.isInteger(t)){
         secs = t % 60;
         mins = (t - secs)/60;
-        
-        //fix the loading in later
-
-
-        $("#time").text(mins.toString()+":"+secs.toString());
+        duration = t;
+        $("#time").text(to_clock_string(t));
         if (active){
             display = document.querySelector('#time');
             clock = setInterval(startTimer, 1000, display);
@@ -81,10 +80,10 @@ $("#start").on("click", function(){
     time_left = localStorage.getItem('time_left');
     display = document.querySelector('#time');
     time = parseInt(time_left);
-    // console.log(clock);
     duration = time;
     if (!clock) {
         active = true;
+        localStorage.setItem('active', true);
         clock = setInterval(startTimer, 1000, display);
     }
 });
@@ -93,6 +92,7 @@ $("#reset").on("click", function(){
     clearInterval(clock);
     clock = null;
     active = false;
+    localStorage.setItem('active', false);
     $("#time").text('00:00');
     
 });
@@ -101,8 +101,8 @@ $("#stop").on("click", function(){
     clearInterval(clock);
     clock = null;
     active = false;
+    localStorage.setItem('active', false);
 });
-
 
 $("#t_in").keypress( function(e){
     if (e.which == 13) {
