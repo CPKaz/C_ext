@@ -1,3 +1,7 @@
+var duration;
+var clock;
+var active;
+
 function to_clock_string(num){
     minutes = parseInt(num / 60, 10);
     seconds = parseInt(num % 60, 10);
@@ -8,27 +12,20 @@ function to_clock_string(num){
     return minutes + ":" + seconds;
 }
 
-
-function startTimer(duration, display) {
-    var timer = duration, minutes, seconds; // figure this out
-    setInterval(function () { // needs to be a variable to stop
-
-        minutes = parseInt(timer / 60, 10); // turn this into a function I want to throw up
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.innerHTML = minutes + ":" + seconds;
-        localStorage.setItem('time_left', timer);
+// function start_clock()
+function startTimer(display) {
+    display.innerHTML = to_clock_string(duration);
+    localStorage.setItem('time_left', duration);
 
         // chrome.browserAction.setBadgeText({text: "minutes + ":" + seconds;"});
 
-        if (--timer < 0) {
-            timer = duration;
-        }
-    }, 1000);
-}
+    if (--duration < 0){
+        active = false;
+        clearInterval(clock);
+        clock = null;
+    }
+
+    }
 
 function set_timer(time, display){
     if (/(^([0-5]?[0-9]?):[0-5][0-9]$)|(^\d{1,4}$)/.test(time.val())){
@@ -49,13 +46,8 @@ function set_timer(time, display){
             if (timer > 60**2 - 1){
                 timer = 60**2 - 1
             }
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
 
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            display.text(minutes + ":" + seconds);
+            display.text(to_clock_string(timer));
         }
     }
     else {
@@ -63,13 +55,13 @@ function set_timer(time, display){
         alert('invalid time')
     }
     localStorage.setItem('time_left', timer);
-    console.log(localStorage.getItem('time_left'));
+    // console.log(localStorage.getItem('time_left'));
 }
 
 window.onload = function () {
     var t = localStorage.getItem('time_left');
     t = parseInt(t);
-    console.log(t);
+    // console.log(t);
     if (Number.isInteger(t)){
         secs = t % 60;
         mins = (t - secs)/60;
@@ -78,19 +70,39 @@ window.onload = function () {
 
 
         $("#time").text(mins.toString()+":"+secs.toString());
+        if (active){
+            display = document.querySelector('#time');
+            clock = setInterval(startTimer, 1000, display);
+        }
     }
 };  
 
-var j;
-$("button").on("click", function(){
+$("#start").on("click", function(){
     time_left = localStorage.getItem('time_left');
     display = document.querySelector('#time');
     time = parseInt(time_left);
-    console.log(j);
-    if (!j){
-        j = startTimer(time, display);
+    // console.log(clock);
+    duration = time;
+    if (!clock) {
+        active = true;
+        clock = setInterval(startTimer, 1000, display);
     }
 });
+
+$("#reset").on("click", function(){
+    clearInterval(clock);
+    clock = null;
+    active = false;
+    $("#time").text('00:00');
+    
+});
+
+$("#stop").on("click", function(){
+    clearInterval(clock);
+    clock = null;
+    active = false;
+});
+
 
 $("#t_in").keypress( function(e){
     if (e.which == 13) {
