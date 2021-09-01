@@ -1,0 +1,23 @@
+html{
+    background-image: url("./chatbot_background.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  body {
+    justify-content: center;
+    display: flex;
+    font-size: 50px;
+}
+
+text {
+    color: white;
+}
+
+#chatbox {
+    color: white;
+    margin-top: 10%;
+}

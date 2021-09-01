@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+    body {
+        background-color: slategray;
+        height: 500px;
+        width: 200px;
+    }
+    div {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        color: yellow;
+        font-size: 50px;
+        background: rgb(32, 166, 219);
+    }
+    input {
+        text-align: center;
+    }
+    </style>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+    <div> <span id="time"> 00:00 </span></div>
+    <ul>
+        <li>
+                <button id="start">start</button>
+        </li>
+        <li>
+                <button id="reset">reset</button>
+        </li>
+    </ul>
+    <div> <input id='t_in' placeholder='ssss or mm:ss'></div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="popup_script.js" charset="utf-8"></script>
+</body>
+</html>
