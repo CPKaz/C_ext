@@ -1,6 +1,8 @@
 var duration;
 var clock;
 var active;
+var background = chrome.extension.getBackgroundPage();
+
 
 function to_clock_string(num){
     minutes = parseInt(num / 60, 10);
@@ -17,7 +19,7 @@ function startTimer(display) {
     display.innerHTML = to_clock_string(duration);
     localStorage.setItem('time_left', duration);
 
-    chrome.browserAction.setBadgeText({text:to_clock_string(duration)});
+    // chrome.browserAction.setBadgeText({text:to_clock_string(duration)});
 
     if (--duration < 0){
         active = false;
@@ -29,6 +31,7 @@ function startTimer(display) {
     }
 
 function set_timer(time, display){
+    var timer;
     if (/(^([0-5]?[0-9]?):[0-5][0-9]$)|(^\d{1,4}$)/.test(time.val())){
         time = time.val()
         if (time.includes(':')){
@@ -55,8 +58,14 @@ function set_timer(time, display){
         time.val('');
         alert('invalid time');
     }
-    localStorage.setItem('time_left', timer);
-    duration = timer;
+    if (timer){
+        localStorage.setItem('time_left', timer);
+        duration = timer;
+    }
+    else {
+        localStorage.setItem('time_left', 0);
+        duration = 0;
+    }
     // console.log(localStorage.getItem('time_left'));
 }
 
@@ -72,6 +81,8 @@ window.onload = function () {
         if (active){
             display = document.querySelector('#time');
             clock = setInterval(startTimer, 1000, display);
+            let message = {msg: "start_clock"};
+            chrome.runtime.sendMessage(message);
         }
     }
 };  
@@ -85,6 +96,8 @@ $("#start").on("click", function(){
         active = true;
         localStorage.setItem('active', true);
         clock = setInterval(startTimer, 1000, display);
+        let message = {msg: "start_clock"}
+        chrome.runtime.sendMessage(message);
     }
 });
 
@@ -93,7 +106,10 @@ $("#reset").on("click", function(){
     clock = null;
     active = false;
     localStorage.setItem('active', false);
+    localStorage.setItem('time_left', 0);
     $("#time").text('00:00');
+    let message = { msg: "stop_clock"}
+    chrome.runtime.sendMessage(message);
     
 });
 
@@ -102,6 +118,8 @@ $("#stop").on("click", function(){
     clock = null;
     active = false;
     localStorage.setItem('active', false);
+    let message = { msg: "stop_clock"}
+    chrome.runtime.sendMessage(message);
 });
 
 $("#t_in").keypress( function(e){

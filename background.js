@@ -1,9 +1,10 @@
 var urls;
 var white_list = [];
-var duration
 var duration = parseInt(localStorage.getItem('time_left'));
 var active = localStorage.getItem('active') == 'true';
 var clock;
+chrome.browserAction.setBadgeText({text:''})
+console.log('smiles');
 
 function to_clock_string(num){
     minutes = parseInt(num / 60, 10);
@@ -15,6 +16,26 @@ function to_clock_string(num){
     return minutes + ":" + seconds;
 }
 
+chrome.runtime.onMessage.addListener(function (message) {
+    console.log(message)
+    if (message == "start_clock"){
+        console.log('WHAT THE')
+    }
+    if (message.msg == "start_clock") {
+        if (clock){
+            clearInterval(clock);
+            clock = null;
+        }
+        console.log('passed test')
+        var duration = parseInt(localStorage.getItem('time_left'));
+        var active = localStorage.getItem('active') == 'true';
+        if (active && Number.isInteger(duration) && duration > 0){
+            clock = setInterval(badge_timer, 1000)
+        }
+    }
+});
+
+
 function badge_timer() {
     localStorage.setItem('time_left', duration);
 
@@ -25,12 +46,9 @@ function badge_timer() {
         localStorage.setItem('active', false);
         clearInterval(clock);
         clock = null;
+        chrome.browserAction.setBadgeText({text:''});
     }
 
-    }
-    
-if(Number.isInteger(duration) && duration > 0 && active){
-        clock = setInterval(badge_timer, 1000);
     }
 
 
