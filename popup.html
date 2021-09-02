@@ -3,20 +3,48 @@
 <head>
     <style>
     body {
-        background-color: slategray;
-        height: 500px;
-        width: 200px;
+        background: url("chatbot_background.jpg");
+        height: 400px;
+        width: 250px;
     }
     div {
         margin-top: 100px;
         display: flex;
         justify-content: center;
-        color: yellow;
+        color: white;
         font-size: 50px;
-        background: rgb(32, 166, 219);
     }
     input {
         text-align: center;
+        background-color: transparent;
+        border-color: white;
+        color: white;
+        font-family: Cambria;
+        margin: 5px;
+        box-shadow: none;
+        border: none;
+        outline: none;
+    }
+
+    ::placeholder {
+        color: cyan;
+        opacity: 80%;
+        font-family: Cambria;
+    }
+
+    button {
+        background-color: transparent;
+        border-color: white;
+        color: white;
+        font-family: Cambria;
+        margin: 5px;
+        box-shadow: none;
+        border: solid;
+        font-size: 1.5em;
+    }
+
+    ul li {
+        display: inline;
     }
     </style>
   <meta charset="UTF-8">
@@ -36,7 +64,7 @@
         </li>
 
     </ul>
-    <div> <input id='t_in' placeholder='ssss or mm:ss'></div>
+    <div> <input id='t_in' placeholder=' input ssss or mm:ss'></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="popup_script.js" charset="utf-8"></script>
 </body>
