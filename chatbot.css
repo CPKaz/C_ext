@@ -11,22 +11,36 @@ html{
   body {
     justify-content: center;
     display: flex;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 text {
+    text-align: center;
     color: white;
 }
 
 #chatbox {
     color: white;
     margin-top: 10%;
+    font-family: Arial;
 }
 
-#user_text {
-    text-align: right;
+button {
+    background: white;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: white;
+    cursor: pointer;
 }
 
 #bot_text {
-    text-align: left;
+    font-size: 3px;
+    text-align: right;
+    border-radius: 20px;
+    border-color: lightskyblue;
+    border-style: solid;
+}
+
+#human_text{
+    text-align: right;
 }
