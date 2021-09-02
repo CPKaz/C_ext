@@ -78,11 +78,13 @@ list.forEach((e)=>{
   document.getElementById("myInput".concat(String(2))).addEventListener("keyup", (event) => {
     if (event.key === "Enter") {
       newElement(String(2));
+      localStorage.setItem('weekly_task_time', String(new Date()))
     }
   });
   document.getElementById("myInput".concat(String(3))).addEventListener("keyup", (event) => {
     if (event.key === "Enter") {
       newElement(String(3));
+      localStorage.setItem('long_task_time', String(new Date()))
     }
   });
 function newElement(n) {
