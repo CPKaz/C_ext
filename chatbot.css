@@ -17,6 +17,7 @@ html{
 text {
     text-align: center;
     color: white;
+    background-color: grey;
 }
 
 #chatbox {

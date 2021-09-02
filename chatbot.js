@@ -8,6 +8,7 @@ var post = '</span></p>';
 yes_and_no = '<span id="b_buttons"> <button class="binary">Yes</button>\n <button class="binary">No</button></span>'
 
 var timer_binary = false;
+var task_binary = false;
 
 let bot_words = "Okay, buddy";
 words = bot_pre + bot_words + post;
@@ -49,6 +50,13 @@ $("#chatbox").on("click", '.binary', function(e){
     if (b_text == "No"){
         timer_binary = false;
         chat(bot_pre + "Okay." + post);
+        d = new Date(localStorage.getItem('daily_task_time'));
+        if (d.getDate() != new Date().getDate()){
+            task_binary = true;
+            chat(bot_pre + "I noticed you haven't set a daily task yet. Would you like me to set one for you?" +post);
+            chat(yes_and_no);
+        }
+
     }
     else if (b_text == "Yes"){
         if (timer_binary){
@@ -56,12 +64,25 @@ $("#chatbox").on("click", '.binary', function(e){
             chat('<p class="bot_text" id="bot_time_setter"><span>' + "What time would you like to set?" + post);
             chat('<span>' + '<input class="human_text" id="time_input">' + '</span>');
         }
+        if (task_binary){
+            task_binary = false;
+            chat('<p class="bot_text" id="bot_time_setter"><span>' + "What do you want to accomplish first today?" + post);
+            chat('<span>' + '<input class="human_text" id="task_input">' + '</span>');
+        }
     }
     else {
         chat(bot_pre + "check logs" +post)
     }
     $("#b_buttons").empty();
 
+});
+
+$("#chatbox").on("keypress", '#task_input', function(e){
+    if (e.which == 13){
+        change_list($(this).val());
+        console.log($(this).val());
+        chat(bot_pre + "Great!" + post)
+    }
 });
 
 $("#chatbox").on("keypress", '#time_input', function(e){
