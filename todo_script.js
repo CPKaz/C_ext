@@ -72,6 +72,7 @@ list.forEach((e)=>{
   document.getElementById("myInput".concat(String(1))).addEventListener("keyup", (event) => {
     if (event.key === "Enter") {
       newElement(String(1));
+      localStorage.setItem('daily_task_time', String(new Date()))
     }
   });
   document.getElementById("myInput".concat(String(2))).addEventListener("keyup", (event) => {

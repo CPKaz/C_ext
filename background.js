@@ -43,6 +43,11 @@ chrome.runtime.onMessage.addListener(function (message) {
             chrome.browserAction.setBadgeText({text:''});
         }
     }
+
+    else if (message.msg == "whitelist"){
+        
+    }
+
 });
 
 
@@ -74,6 +79,12 @@ function badge_timer() {
 // iterate thru white list and check if date is past expiration
 // need a way for the user to modify the black list and white list
 // do all list items need a date object or just toggel boolean?
+
+// going to have a blacklist and whitelist
+// every page request triggers a search thru the whitelist
+// expired whitelist entries get deleted and added to the blacklist
+// chatbot.html will send all messages after the conversation (multiple messages or 1 object)
+// message types include timer setter, whitelist setter,
 
 localStorage.setItem('blocked_sites',  ["*://www.wikipedia.org/*", "*://www.change.org/*"]);
 urls = localStorage.getItem('blocked_sites').split(',');

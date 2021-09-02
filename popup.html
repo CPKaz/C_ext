@@ -5,7 +5,7 @@
     body {
         background: url("chatbot_background.jpg");
         height: 400px;
-        width: 250px;
+        width: 275px;
     }
     div {
         margin-top: 100px;
@@ -22,8 +22,8 @@
         font-family: Cambria;
         margin: 5px;
         box-shadow: none;
-        border: none;
         outline: none;
+        border: solid;
     }
 
     ::placeholder {
@@ -34,6 +34,7 @@
 
     button {
         background-color: transparent;
+        text-align: center;
         border-color: white;
         color: white;
         font-family: Cambria;
@@ -45,7 +46,21 @@
 
     ul li {
         display: inline;
+        text-align: center;
     }
+    button:hover {
+        /*color: RGB(253, 153, 59); */
+        cursor: pointer;
+        color: magenta;
+        text-shadow: 0px 0px 15px white;
+        transition: all 0.4s ease;
+}
+
+#time {
+    /* -webkit-transform: translate(-10%, 0%);
+    -ms-transform: translate(-10%, 0%);
+    transform: translate(-10%, 0%); */
+}
     </style>
   <meta charset="UTF-8">
   <title>Document</title>
