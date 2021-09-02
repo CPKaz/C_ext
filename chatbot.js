@@ -15,6 +15,9 @@ yes_and_no = '<span id="b_buttons"> <button class="binary">Yes</button>\n <butto
 
 var timer_binary = false;
 
+hide_week = true;
+hide_long = true;
+
 // var daily_task_binary = false; // check if tasks are old or if they're empty for each
 // var weekly_task_binary = false;
 // var long_task_binary = false;
@@ -104,11 +107,29 @@ $("#chatbox").on("keypress", '#time_input', function(e){
 
 function task_questions(){
     if (!todo_lists[0].length || d_date.getDate() != new Date().getDate()){
-        chat('<p class="bot_text" id="bot_time_setter"><span>' + "Before moving on, you should set one goal for today (feel free to add more later!)" + post);
+        chat('<p class="bot_text" id="bot_day"><span>' + "Before moving on, set one goal for today (feel free to add more later!)" + post);
         chat('<span>' + '<input class="human_text" id="daily_task_input">' + '</span>');
+        hide_week = true;
+        hide_long = true;
+    }
+    if (!todo_lists[1].length || w_date.getDate() != new Date().getDate()){
+        chat('<p class="bot_text" id="bot_week"><span>' + "Please set a goal for this week. Your daily goals should contribute to its completion." + post);
+        chat('<span>' + '<input class="human_text" id="weekly_task_input">' + '</span>');
+        if (hide_week){
+            $( "#bot_week" ).hide();
+            $( "#weekly_task_input" ).hide();
+        }
     }
     // doing else if here would launch all the things at the same time
     //
+    if (!todo_lists[2].length || l_date.getDate() != new Date().getDate()){
+        chat('<p class="bot_text" id="bot_long"><span>' + "Before proceding, set a long-term goal based on your daily and weekly goals." + post);
+        chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
+    }
+    if (hide_long){
+        $( "#bot_long" ).hide();
+        $( "#long_task_input" ).hide();
+    }
 }
 
 $("#chatbox").on("keypress", '#daily_task_input', function(e){
@@ -116,10 +137,44 @@ $("#chatbox").on("keypress", '#daily_task_input', function(e){
         change_list($(this).val(), 0);
         console.log($(this).val());
         chat(bot_pre + "Great!" + post)
+        $( "#bot_day" ).hide();
+        $( "#daily_task_input" ).hide();
 
-        if (!todo_lists[1].length || d_date.getDate() >= new Date().getDate()+7){
-            // this won't work, this could be in any order (oh no!)
+        try {
+            $( "#bot_week" ).show();
+            $( "#weekly_task_input" ).show();
         }
+        catch {
+            null;
+        }
+    }
+});
+
+$("#chatbox").on("keypress", '#weekly_task_input', function(e){
+    if (e.which == 13){
+        change_list($(this).val(), 1);
+        console.log($(this).val());
+        chat(bot_pre + "Great!" + post)
+        $( "#bot_week" ).hide();
+        $( "#weekly_task_input" ).hide();
+
+        try {
+            $( "#bot_long" ).show();
+            $( "#long_task_input" ).show();
+        }
+        catch {
+            null;
+        }
+    }
+});
+
+$("#chatbox").on("keypress", '#long_task_input', function(e){
+    if (e.which == 13){
+        change_list($(this).val(), 2);
+        console.log($(this).val());
+        chat(bot_pre + "Great!" + post)
+        $( "#long_week" ).hide();
+        $( "#long_task_input" ).hide();
     }
 });
 
