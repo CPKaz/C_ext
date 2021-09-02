@@ -44,6 +44,7 @@ function set_timer(time, display){
             }
             timer = parseInt(time.substring(0, 2))*60 + parseInt(time.substring(3, 5));
             display.text(time);
+            localStorage.setItem('time_left', timer);
         }
         else {
             timer = parseInt(time);
@@ -52,19 +53,13 @@ function set_timer(time, display){
             }
 
             display.text(to_clock_string(timer));
+            localStorage.setItem('time_left', timer);
         }
     }
     else {
         time.val('');
         alert('invalid time');
-    }
-    if (timer){
-        localStorage.setItem('time_left', timer);
-        duration = timer;
-    }
-    else {
         localStorage.setItem('time_left', 0);
-        duration = 0;
     }
     // console.log(localStorage.getItem('time_left'));
 }
@@ -108,7 +103,7 @@ $("#reset").on("click", function(){
     localStorage.setItem('active', false);
     localStorage.setItem('time_left', 0);
     $("#time").text('00:00');
-    let message = { msg: "stop_clock"}
+    let message = { msg: "stop_clock", reset: true}
     chrome.runtime.sendMessage(message);
     
 });
@@ -124,6 +119,7 @@ $("#stop").on("click", function(){
 
 $("#t_in").keypress( function(e){
     if (e.which == 13) {
+        $("#reset").trigger("click");
         set_timer($('#t_in'), $('#time'));
     }
 });

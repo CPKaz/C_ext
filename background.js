@@ -18,19 +18,29 @@ function to_clock_string(num){
 
 chrome.runtime.onMessage.addListener(function (message) {
     console.log(message)
-    if (message == "start_clock"){
-        console.log('WHAT THE')
-    }
     if (message.msg == "start_clock") {
         if (clock){
+            console.log('already got a clock')
             clearInterval(clock);
             clock = null;
         }
         console.log('passed test')
-        var duration = parseInt(localStorage.getItem('time_left'));
-        var active = localStorage.getItem('active') == 'true';
+        duration = parseInt(localStorage.getItem('time_left'));
+        active = localStorage.getItem('active') == 'true';
+        console.log(active);
+        console.log(duration);
         if (active && Number.isInteger(duration) && duration > 0){
+            duration = parseInt(localStorage.getItem('time_left'));
             clock = setInterval(badge_timer, 1000)
+        }
+    }
+    else if (message.msg == "stop_clock"){
+        console.log('clock_stopped')
+        clearInterval(clock);
+        clock = null;
+        localStorage.setItem('active', false)
+        if (message.reset){
+            chrome.browserAction.setBadgeText({text:''});
         }
     }
 });
