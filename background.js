@@ -86,11 +86,13 @@ function badge_timer() {
 // chatbot.html will send all messages after the conversation (multiple messages or 1 object)
 // message types include timer setter, whitelist setter,
 
-localStorage.setItem('blocked_sites',  ["*://www.wikipedia.org/*", "*://www.change.org/*"]);
+localStorage.setItem('blocked_sites',  ["*://www.wikipedia.org/*", "*://www.change.org/*", "*://en.wikipedia.org/*"]);
 urls = localStorage.getItem('blocked_sites').split(',');
 
 chrome.webRequest.onBeforeRequest.addListener(
     function(intercept) {
+        console.log(intercept.url);
+        localStorage.setItem('denied_access_url', intercept.url);
          return {redirectUrl: chrome.extension.getURL("chatbot.html")};
          
     },
@@ -100,3 +102,13 @@ chrome.webRequest.onBeforeRequest.addListener(
     },
     ["blocking"]
 );
+
+// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+// const url = tab.url;
+// urls.array.forEach(element => {
+//     if (element.test(url)){
+//         return {redirectUrl: chrome.extension.getURL("chatbot.html")};
+
+//     }
+// });
+// }

@@ -136,9 +136,10 @@ $("#chatbox").on("keypress", '#daily_task_input', function(e){
     if (e.which == 13){
         change_list($(this).val(), 0);
         console.log($(this).val());
-        chat(bot_pre + "Great!" + post)
+        chat(bot_pre + "Great!" + post);
         $( "#bot_day" ).hide();
         $( "#daily_task_input" ).hide();
+        localStorage.setItem('daily_task_time', String(new Date()));
 
         try {
             $( "#bot_week" ).show();
@@ -157,6 +158,7 @@ $("#chatbox").on("keypress", '#weekly_task_input', function(e){
         chat(bot_pre + "Great!" + post)
         $( "#bot_week" ).hide();
         $( "#weekly_task_input" ).hide();
+        localStorage.setItem('weekly_task_time', String(new Date()));
 
         try {
             $( "#bot_long" ).show();
@@ -175,6 +177,7 @@ $("#chatbox").on("keypress", '#long_task_input', function(e){
         chat(bot_pre + "Great!" + post)
         $( "#long_week" ).hide();
         $( "#long_task_input" ).hide();
+        localStorage.setItem('long_task_time', String(new Date()))
     }
 });
 
