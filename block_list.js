@@ -1,40 +1,36 @@
 
  function load(){
-    var loaded_items = localStorage.getItem('blocked_sites');
-    var items = JSON.parse(loaded_items);
+    var items = localStorage.getItem('blocked_sites');
     // var whitelist = JSON.parse(localStorage.getItem('whitelist'));
     if (items != null){
+      items = items.split(',')
        var html = '';
-       items.forEach((k) =>{
-          var status = ''
-          if (k.checked){
-            status = 'class=\"checked\"';
-          }
-          html += `<li ${status}>${k.item}</li>\n`
+       items.forEach((k)=>{
+        html += `<li>${k}</li>\n`
        });
-       document.getElementById(`myUL${z+1}`).innerHTML = html;
+       }
+       document.getElementById('myUL1').innerHTML = html;
     }
- 
- }
 
  load();
  
  function save(){
-   var todo_lists = [];
-   var list = document.querySelectorAll('ul');
+   var sites = [];
+   var list = document.getElementById('myUL1').innerHTML.split("</li>");
+   list.pop() // removing empty string from list
    list.forEach((i) =>{
-     var todo_items = [];
-     lis = i.innerHTML.split('</li>');
-     lis.pop();
-     lis.forEach((l) => {
-       let reg = /(?:>).*/;
-       let q = l.match(reg);
-       var b = l.match('<li class=\"checked\">') != null;
-       todo_items.push({"item": q[0].slice(1), "checked": b});
-     });
-     todo_lists.push(todo_items);
+    let reg = /(?:>).*(?=<span class="close")/;
+    let q = i.match(reg);
+
+    q = q[0].slice(1)
+    // console.log(i);
+    // console.log(q[0]);
+    sites.push(q);
    });
-   localStorage.setItem('blocked_sites', JSON.stringify(todo_lists));
+   localStorage.setItem('blocked_sites', sites);
+   console.log(sites);
+   let message = {msg: "refresh_block"};
+   chrome.runtime.sendMessage(message);
  }
  
  document.getElementById("myInput".concat(String(1))).addEventListener("keyup", (event) => {
@@ -62,6 +58,7 @@ function newElement(n) {
   
     for (i = 0; i < close.length; i++) {
       close[i].onclick = function() {
+        console.log('new element')
         var div = this.parentElement;
         div.style.display = "none";
       }
@@ -70,14 +67,19 @@ function newElement(n) {
   }
 
 var close = document.getElementsByClassName("close");
+console.log(close)
 var i;
 for (i = 0; i < close.length; i++) {
   close[i].onclick = function() {
+    console.log('first thing')
     var div = this.parentElement;
     div.remove();
+    console.log('the button worked')
     save();
   }
 }
+
+
 
 var myNodelist = document.getElementsByTagName("LI");
 var i;
@@ -88,13 +90,3 @@ for (i = 0; i < myNodelist.length; i++) {
   span.appendChild(txt);
   myNodelist[i].appendChild(span);
 }
-
-var list = document.querySelectorAll('ul');
-list.forEach((e)=>{
-  e.addEventListener('click', function(ev) {
-    if (ev.target.tagName === 'LI') {
-      ev.target.classList.toggle('checked');
-      save();
-    }
-  }, false);
-});

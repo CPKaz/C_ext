@@ -4,7 +4,9 @@ var duration = parseInt(localStorage.getItem('time_left'));
 var active = localStorage.getItem('active') == 'true';
 var clock;
 chrome.browserAction.setBadgeText({text:''})
-console.log('smiles');
+var urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
+    return add_url_ends(e);
+});
 
 function to_clock_string(num){
     minutes = parseInt(num / 60, 10);
@@ -42,6 +44,11 @@ chrome.runtime.onMessage.addListener(function (message) {
         if (message.reset){
             chrome.browserAction.setBadgeText({text:''});
         }
+    }
+    else if (message.msg == "refresh_block"){
+        urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
+            return add_url_ends(e);
+        });
     }
 
     else if (message.msg == "whitelist"){
@@ -86,7 +93,11 @@ function badge_timer() {
 // chatbot.html will send all messages after the conversation (multiple messages or 1 object)
 // message types include timer setter, whitelist setter,
 
-//ocalStorage.setItem('blocked_sites',  ["*://www.change.org/*"]);
+localStorage.setItem('blocked_sites',  ["www.change.org", "hope.org"]);
+
+function add_url_ends(t){
+    return '*://'+t+'/*';
+}
 
 // 1) get the whitelist
 // 2) check to see if any of the whitelists are expired
@@ -94,13 +105,12 @@ function badge_timer() {
 // whitelisting can either be done either through an up-to 60 minute timer or 3 buttons
 // define an end time, disallow pausing a break timer.
 
-var urls = localStorage.getItem('blocked_sites').split(',');
+//var urls = localStorage.getItem('blocked_sites').split(',');
 
 chrome.webRequest.onBeforeRequest.addListener(
     function(intercept) {
-        url = localStorage.getItem('blocked_sites').split(',');
         localStorage.setItem('denied_access_url', intercept.url);
-         return {redirectUrl: chrome.extension.getURL("chatbot.html")};
+        return {redirectUrl: chrome.extension.getURL("chatbot.html")};
          
     },
     {
@@ -110,4 +120,4 @@ chrome.webRequest.onBeforeRequest.addListener(
     ["blocking"]
 );
 
-//      :\/\/[a-zA-z\-0-9]+.[a-zA-z\-0-9]+(?:.[a-zA-z\-0-9]+)?\/
+//      :\/\/[a-zA-z\-0-9]+.[a-zA-z\-0-9]+(?:.[a-zA-z\-0-9]+)?\

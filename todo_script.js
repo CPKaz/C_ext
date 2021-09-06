@@ -27,11 +27,11 @@ function save(){
   list.forEach((i) =>{
     var todo_items = [];
     lis = i.innerHTML.split('</li>');
-    lis.pop();
+    lis.pop(); // remove first item in list
     lis.forEach((l) => {
-      let reg = /(?:>).*/;
+      let reg = /(?:>).*(?=<span class="close")/; //regex to find first >
       let q = l.match(reg);
-      var b = l.match('<li class=\"checked\">') != null;
+      var b = l.match('<li class=\"checked\">') != null; //checks if checked
       todo_items.push({"item": q[0].slice(1), "checked": b});
     });
     todo_lists.push(todo_items);
@@ -111,4 +111,14 @@ function newElement(n) {
     }
   }
   save();
+}
+
+var myNodelist = document.getElementsByTagName("LI");
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  myNodelist[i].appendChild(span);
 }

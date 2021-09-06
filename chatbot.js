@@ -110,8 +110,7 @@ $("#chatbox").on("keypress", '#time_input', function(e){
    }
    else {
 
-    alert(time);
-    console.log(time);
+    alert('Please use mm:ss or ssss format');
 }
 }
 });
