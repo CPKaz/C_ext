@@ -8,11 +8,11 @@
         width: 275px;
     }
     div {
-        margin-top: 100px;
+        margin-top: 20px;
         display: flex;
         justify-content: center;
         color: white;
-        font-size: 50px;
+        font-size: 1.5em;
     }
     input {
         text-align: center;
@@ -24,6 +24,7 @@
         box-shadow: none;
         outline: none;
         border: solid;
+        border-radius: 4px;
     }
 
     ::placeholder {
@@ -42,6 +43,12 @@
         box-shadow: none;
         border: solid;
         font-size: 1.5em;
+        border-radius: 4px;
+    }
+
+    div #block_list {
+        margin-top: 50px;
+       font-size: 1.5em;
     }
 
     ul li {
@@ -57,10 +64,26 @@
 }
 
 #time {
+    font-size: 50px
     /* -webkit-transform: translate(-10%, 0%);
     -ms-transform: translate(-10%, 0%);
     transform: translate(-10%, 0%); */
 }
+
+p {
+    color: white;
+    font-family: Cambria;
+    text-align: center;
+    font-size: .85em;
+
+}
+#block_list:hover {
+    color: yellow;
+}
+#inspiration:hover{
+    color: cyan;
+}
+
     </style>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -80,6 +103,9 @@
 
     </ul>
     <div> <input id='t_in' placeholder=' input ssss or mm:ss'></div>
+    <div><button id="block_list">Modify Blocked Sites</button></div>
+    <p> (You must have 1 recent goal in each list to take this action.)</p>
+    <div><button id="inspiration">AI Inspiration</button></div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="popup_script.js" charset="utf-8"></script>
 </body>

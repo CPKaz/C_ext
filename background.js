@@ -86,12 +86,19 @@ function badge_timer() {
 // chatbot.html will send all messages after the conversation (multiple messages or 1 object)
 // message types include timer setter, whitelist setter,
 
-localStorage.setItem('blocked_sites',  ["*://www.wikipedia.org/*", "*://www.change.org/*", "*://en.wikipedia.org/*"]);
-urls = localStorage.getItem('blocked_sites').split(',');
+//ocalStorage.setItem('blocked_sites',  ["*://www.change.org/*"]);
+
+// 1) get the whitelist
+// 2) check to see if any of the whitelists are expired
+// how do expirations work?
+// whitelisting can either be done either through an up-to 60 minute timer or 3 buttons
+// define an end time, disallow pausing a break timer.
+
+var urls = localStorage.getItem('blocked_sites').split(',');
 
 chrome.webRequest.onBeforeRequest.addListener(
     function(intercept) {
-        console.log(intercept.url);
+        url = localStorage.getItem('blocked_sites').split(',');
         localStorage.setItem('denied_access_url', intercept.url);
          return {redirectUrl: chrome.extension.getURL("chatbot.html")};
          
@@ -103,12 +110,4 @@ chrome.webRequest.onBeforeRequest.addListener(
     ["blocking"]
 );
 
-// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-// const url = tab.url;
-// urls.array.forEach(element => {
-//     if (element.test(url)){
-//         return {redirectUrl: chrome.extension.getURL("chatbot.html")};
-
-//     }
-// });
-// }
+//      :\/\/[a-zA-z\-0-9]+.[a-zA-z\-0-9]+(?:.[a-zA-z\-0-9]+)?\/

@@ -3,6 +3,13 @@ var clock;
 var active;
 var background = chrome.extension.getBackgroundPage();
 
+var todo_lists = JSON.parse(localStorage.getItem('todo_lists'));
+d_date = new Date(localStorage.getItem('daily_task_time'));
+w_date = new Date(localStorage.getItem('weekly_task_time'));
+l_date = new Date(localStorage.getItem('long_task_time'));
+
+var change_blocklist_denied = (!todo_lists[0].length || d_date.getDate() != new Date().getDate() || !todo_lists[1].length || w_date.getDate() != new Date().getDate() || !todo_lists[2].length || l_date.getDate() != new Date().getDate())
+// if none of the to do lists are empty, and all the todolists have been updated recently ('recently' varies) allow blocklist modification
 
 function to_clock_string(num){
     minutes = parseInt(num / 60, 10);
@@ -121,5 +128,14 @@ $("#t_in").keypress( function(e){
     if (e.which == 13) {
         $("#reset").trigger("click");
         set_timer($('#t_in'), $('#time'));
+    }
+});
+
+$('#block_list').on("click", function(){
+    if (change_blocklist_denied){
+        window.open(chrome.extension.getURL("newtab.html"));
+    }
+    else {
+        window.open(chrome.extension.getURL("block_list.html"));
     }
 });

@@ -1,3 +1,4 @@
+
 var message;
 var context;
 var bot_pre = '<p class="bot_text"><span>';
@@ -50,6 +51,16 @@ $("#todo_and_timer").on("click", function(){
     ask_for_timer();
     $("#init_buttons").empty();
 });
+
+$('#needed_for_work').on('click', function(){
+    let reply = human_pre + $("#needed_for_work").text() + post
+    chat(reply);
+
+    bot_whitelist();
+
+
+});
+
 
 $("#chatbox").on("click", '.binary', function(e){
     // console.log('text_below');
@@ -106,8 +117,8 @@ $("#chatbox").on("keypress", '#time_input', function(e){
 });
 
 function task_questions(){
-    if (!todo_lists[0].length || d_date.getDate() != new Date().getDate()){
-        chat('<p class="bot_text" id="bot_day"><span>' + "Before moving on, set one goal for today (feel free to add more later!)" + post);
+    if (!todo_lists[0].length || d_date.getDate() != new Date().getDate()){ //change the dialogue
+        chat('<p class="bot_text" id="bot_day"><span>' + "Set one goal for today (feel free to add more later!)" + post);
         chat('<span>' + '<input class="human_text" id="daily_task_input">' + '</span>');
         hide_week = true;
         hide_long = true;
@@ -123,7 +134,7 @@ function task_questions(){
     // doing else if here would launch all the things at the same time
     //
     if (!todo_lists[2].length || l_date.getDate() != new Date().getDate()){
-        chat('<p class="bot_text" id="bot_long"><span>' + "Before proceding, set a long-term goal based on your daily and weekly goals." + post);
+        chat('<p class="bot_text" id="bot_long"><span>' + "Set a long-term goal based on your daily and weekly goals." + post);
         chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
     }
     if (hide_long){
@@ -182,11 +193,17 @@ $("#chatbox").on("keypress", '#long_task_input', function(e){
 });
 
 function ask_for_timer(context = $('#chatbox')){
-    console.log(context);
     let bot_reply = "Would you like me to set a break timer?"
     chat(bot_pre + bot_reply + post);
     timer_binary = true;
     chat(yes_and_no);
+}
+
+function bot_whitelist(){
+    let bot_reply = "How long would you like to whitelist this website?"
+    chat(bot_pre + bot_reply + post);
+    let time_selection = '<span id="t_buttons"> <button class="time_select_30">30 minute</button>\n <button class="time_select_60"> 60 minutes </button> <button class="time_select_90">90 minute</button></span>'
+    chat(time_selection)
 }
 
 function chatbot_set_timer(duration){

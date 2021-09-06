@@ -5,7 +5,7 @@
 <style>
 
 html{
-  background-image: url("mountain.jpg");
+  background-image: url("chatbot_background.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -13,18 +13,10 @@ html{
   background-repeat: no-repeat;
 }
 
-.column {
-  float: left;
-  width: 33.33%;
-}
-
-/* .header{
+body {
+  font-family: arial;
   text-align: center;
 }
-
-#myDIV{
-  text-align: right;
-} */
 
 * {
   box-sizing: border-box;
@@ -38,12 +30,19 @@ ul {
 ul li {
   cursor: pointer;
   position: relative;
-  padding: 12px 8px 12px 40px;
+  padding: 4px 2px 4px 10px;
   list-style-type: none;
   font-size: 18px;
   font-family: Arial;
-  color: white;
+  color: black;
   transition: 0.2s;
+  background: white;
+  opacity: 75%;
+}
+
+ul li:nth-child(2n+1){
+  background: lightcyan;
+
 }
 
 ul li:hover {
@@ -85,62 +84,58 @@ ul li.checked {
 }
 
 input {
+  text-align: center;
   margin: 0;
   border: none;
-  border-radius: 0;
+  border-radius: 8px;
   width: 75%;
   padding: 10px;
   font-size: 16px;
-  color: white;
-  background: transparent;
+  color: grey;
+  background: white;
   border: none;
   outline: none;
   border-bottom: 1px solid white;
+  -webkit-transform: translate(-2.%, 0%);
+  -ms-transform: translate(-2%, 0%);
+  transform: translate(-2%, 0%);
 }
 
 h2 {
   margin: 5px;
   text-align: center;
-  /* -webkit-transform: translate(-10%, 0%);
-  -ms-transform: translate(-10%, 0%);
-  transform: translate(-10%, 0%); */
+  /* -webkit-transform: translate(-50%, 0%);
+  -ms-transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%); */
+}
+
+p {
+  color: white;
+  font-family: Arial;
+  font-size: 1em;
+}
+
+.header {
+  text-align: center;
+}
+
+::placeholder{
+  color: grey;
 }
 
 </style>
 </head>
 <body>
-<div class="column">
 
 <div id="myDIV" class="header">
-  <h2>Today</h2>
-  <input type="text" id="myInput1" placeholder="Think small!">
+  <h2>Blocked Websites</h2>
+  <p> To block a cite, copy and paste its domain (everything between 'https://' and the next '/') into this list.
+  </p>
+  <input type="text" id="myInput1" placeholder=" Example: the domain of https://en.wikipedia.org/wiki/Ada_Lovelace would be en.wikipedia.org.">
 </div>
 
 <ul id="myUL1">
 </ul>
-</div>
-
-<div class="column">
-
-    <div id="myDIV" class="header">
-      <h2 style>This Week</h2>
-      <input type="text" id="myInput2" placeholder="Make it measurable!">
-    </div>
-    
-    <ul id="myUL2">
-    </ul>
-    </div>
-
-    <div class="column">
-
-        <div id="myDIV" class="header">
-          <h2 style>Long-term</h2>
-          <input type="text" id="myInput3" placeholder="What's the end game?">
-        </div>
-        
-        <ul id="myUL3">
-        </ul>
-        </div>
-<script src="todo_script.js"></script> 
+<script src="block_list.js"></script> 
 </body>
 </html>
