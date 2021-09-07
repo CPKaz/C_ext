@@ -1,4 +1,3 @@
-var urls;
 var white_list = [];
 var duration = parseInt(localStorage.getItem('time_left'));
 var active = localStorage.getItem('active') == 'true';
@@ -48,7 +47,19 @@ chrome.runtime.onMessage.addListener(function (message) {
     else if (message.msg == "refresh_block"){
         urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
             return add_url_ends(e);
+            
         });
+        chrome.webRequest.onBeforeRequest.removeListener(request_handler);
+        chrome.webRequest.onBeforeRequest.addListener(
+            request_handler,
+            {
+                urls,
+                types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
+            },
+            ["blocking"]
+        );
+        chrome.webRequest.handlerBehaviorChanged();
+
     }
 
     else if (message.msg == "whitelist"){
@@ -99,6 +110,8 @@ function add_url_ends(t){
     return '*://'+t+'/*';
 }
 
+console.log(urls)
+
 // 1) get the whitelist
 // 2) check to see if any of the whitelists are expired
 // how do expirations work?
@@ -107,12 +120,13 @@ function add_url_ends(t){
 
 //var urls = localStorage.getItem('blocked_sites').split(',');
 
+function request_handler(){
+    //localStorage.setItem('denied_access_url', intercept.url);
+    return {redirectUrl: chrome.extension.getURL("chatbot.html")};
+}
+
 chrome.webRequest.onBeforeRequest.addListener(
-    function(intercept) {
-        localStorage.setItem('denied_access_url', intercept.url);
-        return {redirectUrl: chrome.extension.getURL("chatbot.html")};
-         
-    },
+    request_handler,
     {
         urls,
         types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
