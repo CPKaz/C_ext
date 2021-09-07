@@ -7,6 +7,25 @@ var urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
     return add_url_ends(e);
 });
 
+chrome.runtime.onStartup.addListener(function() {
+    if (localStorage.getItem('whitelist') == 'true'){
+        var d = new Date();
+        var end = localStorage.getItem('end_time');
+        if (end){
+            end = new Date(end);
+            if (end - d > 0){
+                var t = Math.ceil((end-d)/1000);
+                localStorage.setItem('time_left', t);
+            }
+        }
+    }
+    var t = parseInt(localStorage.getItem('time_left'));
+    if (t > 0){
+        let message = {msg: "start_clock"};
+        chrome.runtime.sendMessage(message)
+    }
+  });
+
 function to_clock_string(num){
     minutes = parseInt(num / 60, 10);
     seconds = parseInt(num % 60, 10);
@@ -50,23 +69,22 @@ chrome.runtime.onMessage.addListener(function (message) {
             
         });
         chrome.webRequest.onBeforeRequest.removeListener(request_handler);
-        chrome.webRequest.onBeforeRequest.addListener(
-            request_handler,
-            {
-                urls,
-                types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
-            },
-            ["blocking"]
-        );
+        w =localStorage.getItem('whitelist');
+        if (w != 'true'){
+            chrome.webRequest.onBeforeRequest.addListener(
+                request_handler,
+                {
+                    urls,
+                    types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
+                },
+                ["blocking"]
+            );
+        }
         chrome.webRequest.handlerBehaviorChanged();
 
     }
-
-    else if (message.msg == "whitelist"){
         
-    }
-
-});
+    });
 
 
 function badge_timer() {
@@ -80,6 +98,8 @@ function badge_timer() {
         clearInterval(clock);
         clock = null;
         chrome.browserAction.setBadgeText({text:''});
+        let message = {msg: "refresh_block"};
+        chrome.runtime.sendMessage(message);
     }
 
     }

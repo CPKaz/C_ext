@@ -29,6 +29,7 @@ function startTimer(display) {
     // chrome.browserAction.setBadgeText({text:to_clock_string(duration)});
 
     if (--duration < 0){
+        localStorage.setItem('whitelist', false);
         active = false;
         localStorage.setItem('active', false);
         clearInterval(clock);

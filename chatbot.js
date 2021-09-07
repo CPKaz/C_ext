@@ -213,11 +213,18 @@ $("#chatbox").on('click', '.time_select', function(){
 function chatbot_set_timer(duration){
     localStorage.setItem('time_left', duration);
     localStorage.setItem('active', true);
-    let message = {msg: "start_clock"}; // this might have to wait
-    chrome.runtime.sendMessage(message); // send this message after the dialogue is finished
+    localStorage.setItem('break_or_work_timer', true);
+    localStorage.setItem('whitelist', true);
+    let d = new Date();
+    d.setSeconds(d.getSeconds()+duration+1);
+    localStorage.setItem('end_time', String(d));
+    let message_1 = {msg: "start_clock"}; // this might have to wait
+    chrome.runtime.sendMessage(message_1); // send this message after the dialogue is finished
+    let message_2 = {msg: "refresh_block"};
+    chrome.runtime.sendMessage(message_2);
     task_questions();
 }
 
-function whitelist(){
-    localStorage.setItem('blocker', )
-}
+// function whitelist(){
+//     localStorage.setItem('blocker', )
+// }
