@@ -86,10 +86,10 @@ function generate() {
       function gotData(err, result) {
         out = result.sample
         txt = txt.charAt(0).toUpperCase() + txt.slice(1);
-        out.replace(' s[ ,.]', '\'s')
-        out.replace(' t[ ,.]', '\'t')
-        out.replace(' re[,. ]', '\'re')
-        out.replace(' ve[,. ]', '\'ve')
+        out = out.replace(/ s /, '\'s ')
+        out = out.replace(/ t /, '\'t ')
+        out = out.replace(/ re /, '\'re ')
+        out = out.replace(/ ve /, '\'ve ')
         // Update the status log
         select('#status').html('Ready!');
         select('#result').html(txt + out);

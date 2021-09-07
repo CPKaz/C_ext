@@ -201,15 +201,20 @@ function ask_for_timer(context = $('#chatbox')){
 function bot_whitelist(){
     let bot_reply = "How long would you like to whitelist this website?"
     chat(bot_pre + bot_reply + post);
-    let time_selection = '<span id="t_buttons"> <button class="time_select_30">30 minute</button>\n <button class="time_select_60"> 60 minutes </button> <button class="time_select_90">90 minute</button></span>'
+    let time_selection = '<span id="t_buttons"> <button class="time_select">30 minutes</button>\n <button class="time_select">60 minutes</button> <button class="time_select">90 minutes</button></span>'
     chat(time_selection)
 }
+$("#chatbox").on('click', '.time_select', function(){
+    duration = parseInt($(this).text().slice(0, 2))*60;
+    chatbot_set_timer(duration);
+
+});
 
 function chatbot_set_timer(duration){
     localStorage.setItem('time_left', duration);
     localStorage.setItem('active', true);
-    let message = {msg: "start_clock"};
-    chrome.runtime.sendMessage(message);
+    let message = {msg: "start_clock"}; // this might have to wait
+    chrome.runtime.sendMessage(message); // send this message after the dialogue is finished
     task_questions();
 }
 
