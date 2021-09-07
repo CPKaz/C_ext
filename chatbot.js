@@ -23,7 +23,7 @@ hide_long = true;
 // var weekly_task_binary = false;
 // var long_task_binary = false;
 
-let bot_words = "Okay, buddy";
+let bot_words = "This site is on your block page. What's up?";
 words = bot_pre + bot_words + post;
 chat(words, context);
 

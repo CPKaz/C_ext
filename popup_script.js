@@ -39,7 +39,7 @@ function startTimer(display) {
 
 function set_timer(time, display){
     var timer;
-    if (/(^([0-5]?[0-9]?):[0-5][0-9]$)|(^\d{1,4}$)/.test(time.val())){
+    if (/(^([0-9]?[0-9]?):[0-5][0-9]$)|(^\d{1,4}$)/.test(time.val())){
         time = time.val()
         if (time.includes(':')){
             l = time.length;
@@ -50,13 +50,17 @@ function set_timer(time, display){
                 time = '0' + time;
             }
             timer = parseInt(time.substring(0, 2))*60 + parseInt(time.substring(3, 5));
+            if (timer > 5400){
+                timer = 5400;
+                time = '90:00'
+            }
             display.text(time);
             localStorage.setItem('time_left', timer);
         }
         else {
             timer = parseInt(time);
-            if (timer > 60**2 - 1){
-                timer = 60**2 - 1
+            if (timer > 5400){
+                timer = 5400;
             }
 
             display.text(to_clock_string(timer));
@@ -138,4 +142,8 @@ $('#block_list').on("click", function(){
     else {
         window.open(chrome.extension.getURL("block_list.html"));
     }
+});
+
+$('#inspiration').on('click', function(){
+    chrome.tabs.create({ url:  chrome.extension.getURL("ai/index.html") });
 });

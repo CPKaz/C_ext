@@ -11,7 +11,7 @@
 		"32": "img/32.png",
 		"128": "img/128.png"
 		},
-	"content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
+	"content_security_policy": "script-src 'self' 'unsafe-eval' https://ajax.googleapis.com; object-src 'self'",
 	"background": {
 		"scripts":["background.js"]
 	},
