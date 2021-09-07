@@ -6,6 +6,7 @@
   body{
     color: white;
     font-family: Arial;
+    font-size: 1.4em;
   }
   html{
     background-image: url("AI_background.jpg");
@@ -15,6 +16,41 @@
     background-size: cover;
     background-repeat: no-repeat;
   }
+
+  input {
+        text-align: center;
+        background-color: white;
+        border-color: transparent;
+        color: grey;
+        font-family: Arial;
+        margin: 5px;
+        box-shadow: none;
+        outline: none;
+        border: solid;
+        border-radius: 4px;
+    }
+
+  button:hover {
+        /*color: RGB(253, 153, 59); */
+        cursor: pointer;
+        color: #01ebbc;
+        text-shadow: 0px 0px 15px white;
+        transition: all 0.4s ease;
+}
+
+  button {
+        background-color: transparent;
+        text-align: center;
+        cursor:pointer;
+        border-color: white;
+        color: white;
+        font-family: Arial;
+        margin: 5px;
+        box-shadow: none;
+        border: solid;
+        font-size: 1.5em;
+        border-radius: 4px;
+    }
   
   </style>
   <title>AI Inspiration</title>
@@ -27,15 +63,15 @@
 
 <body>
   <h1>AI Inspiration</h1>
-  <p>seed text:
+  <p>Start text:
     <input id="textInput" value="Life is"/>
   </p>
-  <p>length:
+  <p>Length:
     <input id="lenSlider" type="range" min="10" max="500" value="100"                              /> <span id="length">100</span></p>
-  <p>temperature:
+  <p>Randomness:
     <input id="tempSlider" type="range" min="0" max="1" step="0.01"                              /><span id="temperature">0.5</span></p>
   <p id="status">Loading Model</p>
-  <button id="generate">generate</button>
+  <button id="generate">Inspire me!</button>
   <p id="result"></p>
 
 

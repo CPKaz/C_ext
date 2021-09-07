@@ -75,7 +75,7 @@ function generate() {
       // TODO: What are the defaults?
       let data = {
         seed: txt,
-        temperature: tempSlider.value(),
+        temperature: 1 - tempSlider.value(),
         length: lengthSlider.value()
       };
 
