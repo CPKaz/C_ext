@@ -9,12 +9,14 @@
         html += `<li>${k}</li>\n`
        });
        }
+       console.log(html)
        document.getElementById('myUL1').innerHTML = html;
     }
 
  load();
  
  function save(){
+   console.log('saving');
    var sites = [];
    var list = document.getElementById('myUL1').innerHTML.split("</li>");
    list.pop() // removing empty string from list
@@ -28,18 +30,52 @@
     sites.push(q);
    });
    localStorage.setItem('blocked_sites', sites);
-   console.log(sites);
+   //console.log(sites);
    let message = {msg: "refresh_block"};
    chrome.runtime.sendMessage(message);
  }
  
+ var myNodelist = document.getElementsByTagName("LI");
+ var i;
+ for (i = 0; i < myNodelist.length; i++) {
+   var span = document.createElement("SPAN");
+   var txt = document.createTextNode("\u00D7");
+   span.className = "close";
+   span.appendChild(txt);
+   myNodelist[i].appendChild(span);
+ }
+
+var close = document.getElementsByClassName("close");
+var i;
+console.log(close)
+for (i = 0; i < close.length; i++) {
+  console.log(i)
+  console.log(close[i])
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.remove();
+    save();
+  }
+}
+
+var list = document.querySelectorAll('ul');
+list.forEach((e)=>{
+  e.addEventListener('click', function(ev) {
+    if (ev.target.tagName === 'LI') {
+      ev.target.classList.toggle('checked');
+      save();
+    }
+  }, false);
+});
+
+
  document.getElementById("myInput".concat(String(1))).addEventListener("keyup", (event) => {
     if (event.key === "Enter") {
       newElement(String(1));
     }
   });
 
-function newElement(n) {
+  function newElement(n) {
     var li = document.createElement("li");
     var inputValue = document.getElementById("myInput".concat(n)).value;
     var t = document.createTextNode(inputValue);
@@ -58,35 +94,10 @@ function newElement(n) {
   
     for (i = 0; i < close.length; i++) {
       close[i].onclick = function() {
-        console.log('new element')
         var div = this.parentElement;
         div.style.display = "none";
+        save();
       }
     }
     save();
   }
-
-var close = document.getElementsByClassName("close");
-console.log(close)
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    console.log('first thing')
-    var div = this.parentElement;
-    div.remove();
-    console.log('the button worked')
-    save();
-  }
-}
-
-
-
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
