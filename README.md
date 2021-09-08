@@ -1,4 +1,4 @@
-# C_ext
+# Keeping Time
 This is the code for my Chrome extension, Keeping Time.
 This is meant to increase users' productivity by encouraging them to set goals on different time scales, blocking websites, and setting timers to limit the use of certain websites. <br>
 Features of this extension include: <br>
