@@ -16,16 +16,17 @@ yes_and_no = '<span id="b_buttons"> <button class="binary">Yes</button>\n <butto
 
 var timer_binary = false;
 
-hide_week = true;
-hide_long = true;
+var day_bool = false;
+var week_bool = false;
+var long_bool = false;
 
 // var daily_task_binary = false; // check if tasks are old or if they're empty for each
 // var weekly_task_binary = false;
 // var long_task_binary = false;
 
-let bot_words = "This site is on your block page. What's up?";
-words = bot_pre + bot_words + post;
-chat(words, context);
+// let bot_words = "This site is on your block page. What's up?";
+// let words = bot_pre + bot_words + post;
+// chat(words, context);
 
 function chat(words, context = $('#chatbox')){
     context.append(words);
@@ -47,15 +48,14 @@ $("#todo_and_timer").on("click", function(){
     let b_text = $("#todo_and_timer").text()
     let reply = human_pre + $("#todo_and_timer").text() + post
     chat(reply);
-
-    ask_for_timer();
     $("#init_buttons").empty();
+    ask_for_timer();
 });
 
 $('#needed_for_work').on('click', function(){
     let reply = human_pre + $("#needed_for_work").text() + post
     chat(reply);
-
+    $("#init_buttons").empty();
     bot_whitelist();
 
 
@@ -74,7 +74,7 @@ $("#chatbox").on("click", '.binary', function(e){
         if (timer_binary){
             timer_binary = false;
             chat('<p class="bot_text" id="bot_time_setter"><span>' + "What time would you like to set?" + post);
-            chat('<span>' + '<input class="human_text" id="time_input">' + '</span>');
+            chat('<span>' + '<input class="human_text" id="time_input" placeholder="mm:ss or ssss">' + '</span>');
         }
     }
     else {
@@ -85,7 +85,7 @@ $("#chatbox").on("click", '.binary', function(e){
 });
 
 $("#chatbox").on("keypress", '#time_input', function(e){
-   if (e.which == 13){ // will this work on added html?
+   if (e.which == 13){ 
         time = $(this).val()
     if (/(^([0-5]?[0-9]?):[0-5][0-9]$)|(^\d{1,4}$)/.test(time)){
         if (time.includes(':')){
@@ -117,46 +117,49 @@ $("#chatbox").on("keypress", '#time_input', function(e){
 
 function task_questions(){
     if (!todo_lists[0].length || d_date.getDate() != new Date().getDate()){ //change the dialogue
-        chat('<p class="bot_text" id="bot_day"><span>' + "Set one goal for today (feel free to add more later!)" + post);
+        chat('<p class="bot_text" id="bot_day"><span>' + "Set one goal for today" + post);
         chat('<span>' + '<input class="human_text" id="daily_task_input">' + '</span>');
-        hide_week = true;
-        hide_long = true;
+        day_bool = true;
+        //hide_week = true;
+        //hide_long = true;
     }
     if (!todo_lists[1].length || w_date.getDate() != new Date().getDate()){
-        chat('<p class="bot_text" id="bot_week"><span>' + "Please set a goal for this week. Your daily goals should contribute to its completion." + post);
-        chat('<span>' + '<input class="human_text" id="weekly_task_input">' + '</span>');
-        if (hide_week){
-            $( "#bot_week" ).hide();
-            $( "#weekly_task_input" ).hide();
+        week_bool = true;
+        if (!day_bool){
+            chat('<p class="bot_text" id="bot_week"><span>' + "Please set a goal for this week." + post);
+            chat('<span>' + '<input class="human_text" id="weekly_task_input">' + '</span>');
         }
+        //chat('<p class="bot_text" id="bot_week"><span>' + "Please set a goal for this week. Your daily goals should contribute to its completion." + post);
+        //chat('<span>' + '<input class="human_text" id="weekly_task_input">' + '</span>');
     }
-    // doing else if here would launch all the things at the same time
     //
     if (!todo_lists[2].length || l_date.getDate() != new Date().getDate()){
-        chat('<p class="bot_text" id="bot_long"><span>' + "Set a long-term goal based on your daily and weekly goals." + post);
-        chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
-    }
-    if (hide_long){
-        $( "#bot_long" ).hide();
-        $( "#long_task_input" ).hide();
+        long_bool = true;
+        if (!day_bool && !week_bool){
+            chat('<p class="bot_text" id="bot_long"><span>' + "Set a long-term goal." + post);
+            chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
+        }
+        //chat('<p class="bot_text" id="bot_long"><span>' + "Set a long-term goal based on your daily and weekly goals." + post);
+        //chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
     }
 }
 
 $("#chatbox").on("keypress", '#daily_task_input', function(e){
     if (e.which == 13){
         change_list($(this).val(), 0);
-        console.log($(this).val());
+        chat(human_pre+$(this).val()+post);
         chat(bot_pre + "Great!" + post);
-        $( "#bot_day" ).hide();
+        //$( "#bot_day" ).hide();
         $( "#daily_task_input" ).hide();
         localStorage.setItem('daily_task_time', String(new Date()));
 
-        try {
-            $( "#bot_week" ).show();
-            $( "#weekly_task_input" ).show();
+        if (week_bool) {
+            chat('<p class="bot_text" id="bot_week"><span>' + "Please set a goal for this week." + post);
+            chat('<span>' + '<input class="human_text" id="weekly_task_input">' + '</span>');
         }
-        catch {
-            null;
+        else if (long_bool){
+            chat('<p class="bot_text" id="bot_long"><span>' + "Set a long-term goal." + post);
+            chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
         }
     }
 });
@@ -164,18 +167,14 @@ $("#chatbox").on("keypress", '#daily_task_input', function(e){
 $("#chatbox").on("keypress", '#weekly_task_input', function(e){
     if (e.which == 13){
         change_list($(this).val(), 1);
-        console.log($(this).val());
+        chat(human_pre+$(this).val()+post);
         chat(bot_pre + "Great!" + post)
-        $( "#bot_week" ).hide();
+        //$( "#bot_week" ).hide();
         $( "#weekly_task_input" ).hide();
         localStorage.setItem('weekly_task_time', String(new Date()));
-
-        try {
-            $( "#bot_long" ).show();
-            $( "#long_task_input" ).show();
-        }
-        catch {
-            null;
+        if (long_bool) {
+            chat('<p class="bot_text" id="bot_long"><span>' + "Set a long-term goal." + post);
+            chat('<span>' + '<input class="human_text" id="long_task_input">' + '</span>');
         }
     }
 });
@@ -183,10 +182,10 @@ $("#chatbox").on("keypress", '#weekly_task_input', function(e){
 $("#chatbox").on("keypress", '#long_task_input', function(e){
     if (e.which == 13){
         change_list($(this).val(), 2);
-        console.log($(this).val());
+        chat(human_pre+$(this).val()+post);
         chat(bot_pre + "Great!" + post)
-        $( "#long_week" ).hide();
-        $( "#long_task_input" ).hide();
+        //$( "#long_week" ).hide();
+        $("#long_task_input").hide();
         localStorage.setItem('long_task_time', String(new Date()))
     }
 });
@@ -207,6 +206,9 @@ function bot_whitelist(){
 $("#chatbox").on('click', '.time_select', function(){
     duration = parseInt($(this).text().slice(0, 2))*60;
     chatbot_set_timer(duration);
+    chat(human_pre+ $(this).text().slice(0, 2)+ " minutes" + post);
+    chat(bot_pre + "You're good to go!" + post);
+    $('#t_buttons').hide();
 
 });
 

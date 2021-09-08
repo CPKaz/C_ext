@@ -64,28 +64,32 @@ chrome.runtime.onMessage.addListener(function (message) {
         }
     }
     else if (message.msg == "refresh_block"){
-        urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
-            return add_url_ends(e);
-            
-        });
-        chrome.webRequest.onBeforeRequest.removeListener(request_handler);
-        w =localStorage.getItem('whitelist');
-        if (w != 'true'){
-            chrome.webRequest.onBeforeRequest.addListener(
-                request_handler,
-                {
-                    urls,
-                    types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
-                },
-                ["blocking"]
-            );
-        }
-        chrome.webRequest.handlerBehaviorChanged();
+        refresh();
 
     }
         
     });
 
+
+function refresh(){
+    urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
+        return add_url_ends(e);
+        
+    });
+    chrome.webRequest.onBeforeRequest.removeListener(request_handler);
+    let w =localStorage.getItem('whitelist');
+    if (w != 'true'){
+        chrome.webRequest.onBeforeRequest.addListener(
+            request_handler,
+            {
+                urls,
+                types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
+            },
+            ["blocking"]
+        );
+    }
+    chrome.webRequest.handlerBehaviorChanged();
+}
 
 function badge_timer() {
     localStorage.setItem('time_left', duration);
@@ -98,8 +102,10 @@ function badge_timer() {
         clearInterval(clock);
         clock = null;
         chrome.browserAction.setBadgeText({text:''});
-        let message = {msg: "refresh_block"};
-        chrome.runtime.sendMessage(message);
+        localStorage.setItem('whitelist', false)
+        refresh();
+        // let message = {msg: "refresh_block"};
+        // chrome.runtime.sendMessage(message); // does this even work?
     }
 
     }

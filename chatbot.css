@@ -5,13 +5,14 @@ html{
     -o-background-size: cover;
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
 
   body {
     justify-content: center;
     display: flex;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 text {
@@ -21,9 +22,12 @@ text {
 }
 
 #chatbox {
+    scroll-behavior: smooth;
     color: white;
     margin-top: 10%;
     font-family: Arial;
+    text-align: center;
+    display: inline-block;
 }
 
 button {
@@ -32,16 +36,85 @@ button {
     border-radius: 4px;
     border-color: white;
     cursor: pointer;
+    text-align: center;
 }
 
-#bot_text {
-    font-size: 3px;
-    text-align: right;
-    border-radius: 20px;
+#time_input::placeholder{
+    color: white;
+}
+
+#daily_task_input {
+    text-align: center;
+    background-color: blue;
+}
+
+#weekly_task_input {
+    text-align: center;
+    background-color: blue;
+}
+
+#long_task_input {
+    text-align: center;
+    background-color: blue;
+}
+
+#time_input {
+    text-align: center;
+    background-color: blue;
+}
+
+.bot_text {
+    /* font-size: 3px; */
+    /* padding: 5px; */
+    margin-right: 20px;
+    text-align: left;
+    color: black;
+    /* border-radius: 8px; */
+    margin-right: 10px;
+    /* border-radius: 20px;
     border-color: lightskyblue;
-    border-style: solid;
+    border-style: solid; */
+    animation: floatup .5s forwards;
+    clear: both;
 }
 
-#human_text{
-    text-align: right;
+.bot_text span {
+    background-color: white;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.human_text{
+        /* font-size: 3px; */
+        /* padding: 5px; */
+        text-align: right;
+        color: white;
+        border-radius: 8px;
+        /* margin-left: 10px; */
+        /* border-radius: 20px;
+        border-color: lightskyblue;
+        border-style: solid; */
+        animation: floatup .5s forwards;
+        clear: both;
+}
+
+.human_text span{
+    background-color: rgb(42, 42, 255);
+    border-radius: 8px;
+    padding: 5px;
+}
+
+/* #bot_time_setter{
+    background-color: rgb(42, 42, 255);
+} */
+
+@keyframes floatup {
+    from {
+        transform: translateY(14px);
+        opacity: .0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
 }
