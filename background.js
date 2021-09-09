@@ -2,10 +2,20 @@ var white_list = [];
 var duration = parseInt(localStorage.getItem('time_left'));
 var active = localStorage.getItem('active') == 'true';
 var clock;
+var urls;
+
 chrome.browserAction.setBadgeText({text:''})
-var urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
-    return add_url_ends(e);
-});
+localStorage.setItem('todo_lists','[[],[],[]]')
+
+try{
+    var urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
+        return add_url_ends(e);
+    });
+}
+
+catch{
+    var urls = [];
+}
 
 chrome.runtime.onStartup.addListener(function() {
     if (localStorage.getItem('whitelist') == 'true'){
@@ -130,7 +140,7 @@ function badge_timer() {
 // chatbot.html will send all messages after the conversation (multiple messages or 1 object)
 // message types include timer setter, whitelist setter,
 
-localStorage.setItem('blocked_sites',  ["www.change.org", "hope.org"]);
+localStorage.setItem('blocked_sites',  ["www.change.org"]);
 
 function add_url_ends(t){
     return '*://'+t+'/*';

@@ -86,7 +86,7 @@ $("#chatbox").on("click", '.binary', function(e){
 
 $("#chatbox").on("keypress", '#time_input', function(e){
    if (e.which == 13){ 
-        time = $(this).val()
+        time = $(this).val();
     if (/(^([0-5]?[0-9]?):[0-5][0-9]$)|(^\d{1,4}$)/.test(time)){
         if (time.includes(':')){
             l = time.length;
@@ -96,7 +96,9 @@ $("#chatbox").on("keypress", '#time_input', function(e){
             if (l == 4){
                 time = '0' + time;
             }
+            chat(human_pre+ time + post)
             timer = parseInt(time.substring(0, 2))*60 + parseInt(time.substring(3, 5));
+            $(this).hide();
             chatbot_set_timer(timer);
         }
         else {
@@ -104,13 +106,14 @@ $("#chatbox").on("keypress", '#time_input', function(e){
             if (timer > 60**2 - 1){
                 timer = 60**2 - 1
             }
-            chatbot_set_timer(timer);
+            chat(human_pre+ timer + ' seconds' + post)
+        chatbot_set_timer(timer);
     }
-    
+    $(this).hide();
    }
    else {
 
-    alert('Please use mm:ss or ssss format');
+    alert('Please use ee or ssss format');
 }
 }
 });
@@ -201,7 +204,7 @@ function bot_whitelist(){
     let bot_reply = "How long would you like to whitelist this website?"
     chat(bot_pre + bot_reply + post);
     let time_selection = '<span id="t_buttons"> <button class="time_select">30 minutes</button>\n <button class="time_select">60 minutes</button> <button class="time_select">90 minutes</button></span>'
-    chat(time_selection)
+    chat(time_selection);
 }
 $("#chatbox").on('click', '.time_select', function(){
     duration = parseInt($(this).text().slice(0, 2))*60;
