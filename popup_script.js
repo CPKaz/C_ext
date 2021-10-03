@@ -8,16 +8,16 @@ d_date = new Date(localStorage.getItem('daily_task_time'));
 w_date = new Date(localStorage.getItem('weekly_task_time'));
 l_date = new Date(localStorage.getItem('long_task_time'));
 
-var change_blocklist_denied;
+var change_blocklist_denied = false;
 
-try {
-     change_blocklist_denied = (!todo_lists[0].length || d_date.getDate() != new Date().getDate() || !todo_lists[1].length || w_date.getDate() != new Date().getDate() || !todo_lists[2].length || l_date.getDate() != new Date().getDate())
-}
+// try {
+//      change_blocklist_denied = (!todo_lists[0].length || d_date.getDate() != new Date().getDate() || !todo_lists[1].length || w_date.getDate() != new Date().getDate() || !todo_lists[2].length || l_date.getDate() != new Date().getDate())
+// }
 
-catch {
-    change_blocklist_denied = true
+// catch {
+//     change_blocklist_denied = true
 
-}
+// }
 // if none of the to do lists are empty, and all the todolists have been updated recently ('recently' varies) allow blocklist modification
 
 function to_clock_string(num){
