@@ -2,7 +2,7 @@
 	"name": "Keeping Time",
 	"version": "1.0",
 	"manifest_version": 2,
-	"description": "Keeping Time is an extension designed to help users manage time better by creating goals consistently, blocking sites, and setting timers to track work and leisure in the browser.",
+	"description": "Keeping Time is an extension designed to help users manage time their time better and stay on task.",
 	"chrome_url_overrides":{
 	"newtab": "newtab.html"
 	},
