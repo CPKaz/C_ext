@@ -16,11 +16,11 @@ Keeping Time aims to increase users' productivity by encouraging them to set goa
 <img src="https://i.imgur.com/W4pCsOq.png">
 
 <h2> Installation </h2>
-Keeping Time is not listed on the Chrome store. However, you can download and install it in with the following method: <br> <br>
+Keeping Time is currently under review for listing on the Chrome Store. However, you can download and install it in with the following method: <br> <br>
 
 1. Download this git. repo <br>
 2. Cick on the three vertically stacked dots in the top right of your browser. Mouse over 'more tools' and then click 'extensions.' <br>
 3. Hit the slider in the top right of the page that says 'developer mode.' <br>
 4. In the top left of the page, hit 'load unpacked' and then select the folder of this repo. <br>
-5. Keeping Time should now appear first in the list of your extensions. <b> Hit the refresh button on the extension. </b> <br>
+5. Keeping Time should now appear first in the list of your extensions. <b>If the extension pages do not load properly, hit the refresh button at the bottom of the Keeping Time panel in the Chrome Extension menu. </b> <br>
 6. Keeping Time is now installed!
