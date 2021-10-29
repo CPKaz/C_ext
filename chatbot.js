@@ -1,4 +1,3 @@
-
 var message;
 var context;
 var bot_pre = '<p class="bot_text"><span>';

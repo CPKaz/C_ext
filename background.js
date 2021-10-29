@@ -14,7 +14,7 @@ try{
 }
 
 catch{
-    var urls = [];
+    var urls = ['*://www.change.org/*'];
 }
 
 chrome.runtime.onStartup.addListener(function() {
