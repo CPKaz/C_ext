@@ -1,1 +1,0 @@
-when setting break timer, max value is 59:59. should be an easy fix, probably something wrong with regex
