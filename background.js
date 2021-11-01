@@ -5,7 +5,9 @@ var clock;
 var urls;
 
 chrome.browserAction.setBadgeText({text:''})
-localStorage.setItem('todo_lists','[[],[],[]]')
+if (localStorage.getItem('todo_lists') === null){
+    localStorage.setItem('todo_lists','[[],[],[]]')
+}
 
 try{
     var urls = localStorage.getItem('blocked_sites').split(',').map(function(e){
