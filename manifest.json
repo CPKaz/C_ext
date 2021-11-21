@@ -1,6 +1,6 @@
 {
 	"name": "Keeping Time",
-	"version": "1.0",
+	"version": "1.1",
 	"manifest_version": 2,
 	"description": "Keeping Time is an extension designed to help users manage time their time better and stay on task.",
 	"chrome_url_overrides":{
